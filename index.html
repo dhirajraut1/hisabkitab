@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hisab Kitab - Personal Finance App for Nepal</title>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --text-color: #f1f5f9;
+            --primary: #5c4eb4;
+            --primary-dark: #493ca2;
+            --accent-pink: #ff7597;
+            --accent-blue: #4ba3f5;
+            --card-bg: #182235;
+            --border: #24324d;
+            --bg-light: #111827;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --text-color: #0f172a;
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --bg-light: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 5%;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            object-fit: contain;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            color: var(--text-color);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--card-bg);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 3rem 5%;
+                gap: 3rem;
+            }
+            .hero-mockup {
+                order: -1;
+            }
+        }
+
+        .tagline {
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            max-width: 540px;
+        }
+
+        [data-theme="light"] .hero-content p {
+            color: #475569;
+        }
+
+        .cta-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.95rem 2.2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(92, 78, 180, 0.25);
+            max-width: 280px;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .cta-note {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        [data-theme="light"] .cta-note {
+            color: #64748b;
+        }
+
+        .hero-mockup {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .screenshot-frame {
+            width: 100%;
+            max-width: 310px;
+            border: 10px solid #1e293b;
+            border-radius: 36px;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+            overflow: hidden;
+            display: block;
+            background-color: #0b0f19;
+        }
+
+        .screenshot-frame img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            letter-spacing: -0.02em;
+        }
+
+        .features {
+            background-color: var(--bg-light);
+            padding: 5rem 5%;
+            transition: background-color 0.3s;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.6rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        [data-theme="light"] .feature-card p {
+            color: #475569;
+        }
+
+        .why-choose {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .why-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .why-item span {
+            color: var(--accent-blue);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .why-item p {
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            font-size: 0.875rem;
+            color: #64748b;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="brand">
+            <img src="HisabKitab.png" alt="Hisab Kitab Logo">
+            <span>Hisab Kitab</span>
+        </a>
+        <button class="theme-toggle" id="themeToggle">Light Mode</button>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <span class="tagline">🇳🇵 Built for Nepal. Designed for You.</span>
+            <h1>Hisab Kitab – Your Complete Personal Finance Companion</h1>
+            <p>An all-in-one personal finance app designed specifically for the Nepalese market. Keep every rupee accounted for, track daily spending, plan your goals, and gain complete control over your financial insights.</p>
+            
+            <div class="cta-group">
+                <a href="https://play.google.com/store/apps/details?id=com.adtech.kharchasaathi" target="_blank" class="cta-btn">
+                    Download on Google Play
+                </a>
+                <span class="cta-note">Download free. No subscriptions. No hidden fees.</span>
+            </div>
+        </div>
+        
+        <div class="hero-mockup">
+            <div class="screenshot-frame">
+                <img src="image_0580aa.png" alt="Hisab Kitab App Homepage">
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Key Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Expense Tracking</h3>
+                <p>Track your daily income and expenses with detailed categorization and maintain a clear picture of where your money goes.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Budget Management</h3>
+                <p>Create monthly budgets, monitor spending habits, and stay on track with your financial goals.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Asset Management</h3>
+                <p>Manage your assets and monitor your complete financial worth seamlessly in one cohesive space.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Bill Splitting</h3>
+                <p>Split expenses among friends, family, or groups and keep shared tracking clean and organized.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Loan Management</h3>
+                <p>Track loans, repayments, due dates, and outstanding balances effortlessly over time.</p>
+            </div>
+            <div class="feature-card">
+                <h3>EMI Calculator</h3>
+                <p>Calculate monthly installments instantly for your ongoing loans and future financial planning.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Tax Estimation</h3>
+                <p>Estimate taxes with simplified, clean calculations built for easier strategic management.</p>
+            </div>
+            <div class="feature-card">
+                <h3>SIP Calculator</h3>
+                <p>Plan your investments accurately and estimate future systematic returns with SIP metrics.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Vehicle Tax Calculator</h3>
+                <p>Calculate vehicle registration and renewals based cleanly on Nepal-specific requirements.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Notifications & Reminders</h3>
+                <p>Never miss critical payments with timely bill reminders and interactive local alerts.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Financial Insights</h3>
+                <p>Understand deeper spending patterns and make structured, smart financial choices daily.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-choose">
+        <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;">Why Choose Hisab Kitab?</h2>
+        <p style="color: #94a3b8; max-width: 700px; margin-bottom: 2rem;">Whether you are a student, professional, business owner, or someone looking to manage personal finances more effectively, Hisab Kitab provides the exact tools needed to stay financially organized.</p>
+        
+        <div class="why-grid">
+            <div class="why-item">
+                <span>✓</span>
+                <p>Designed specifically for Nepal</p>
+            </div>
+            <div class="why-item">
+                <span>✓</span>
+                <p>Simple and easy-to-use interface</p>
+            </div>
+            <div class="why-item">
+                <span>✓</span>
+                <p>Multiple financial tools in one app</p>
+            </div>
+            <div class="why-item">
+                <span>✓</span>
+                <p>Better financial planning & management</p>
+            </div>
+            <div class="why-item">
+                <span>✓</span>
+                <p>Track, organize, and grow your finances</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Hisab Kitab. Managing personal finance with absolute clarity.</p>
+    </footer>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            if (body.hasAttribute('data-theme')) {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = 'Light Mode';
+            } else {
+                body.setAttribute('data-theme', 'light');
+                themeToggle.textContent = 'Dark Mode';
+            }
+        });
+    </script>
+</body>
+</html>
