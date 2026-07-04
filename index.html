@@ -68,18 +68,37 @@
         .theme-toggle {
             background: none;
             border: 1px solid var(--border);
-            padding: 0.5rem 1.2rem;
-            border-radius: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
             cursor: pointer;
             color: var(--text-color);
-            font-size: 0.875rem;
-            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.2s;
         }
 
         .theme-toggle:hover {
             background-color: var(--card-bg);
         }
+
+        .theme-toggle svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* Toggle display logic for theme icons */
+        .sun-icon { display: block; }
+        .moon-icon { display: none; }
+
+        [data-theme="light"] .sun-icon { display: none; }
+        [data-theme="light"] .moon-icon { display: block; }
 
         .hero {
             display: grid;
@@ -160,10 +179,6 @@
 
         .cta-note {
             font-size: 0.85rem;
-            color: #64748b;
-        }
-
-        [data-theme="light"] .cta-note {
             color: #64748b;
         }
 
@@ -278,6 +293,23 @@
             color: #64748b;
             border-top: 1px solid var(--border);
         }
+
+        .footer-links {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -287,7 +319,24 @@
             <img src="HisabKitab.png" alt="Hisab Kitab Logo">
             <span>Hisab Kitab</span>
         </a>
-        <button class="theme-toggle" id="themeToggle">Light Mode</button>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+            <!-- Sun Icon (shows when dark mode active to switch to light) -->
+            <svg class="sun-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Moon Icon (shows when light mode active to switch to dark) -->
+            <svg class="moon-icon" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+        </button>
     </header>
 
     <section class="hero">
@@ -368,10 +417,6 @@
         <div class="why-grid">
             <div class="why-item">
                 <span>✓</span>
-                <p>Designed specifically for Nepal</p>
-            </div>
-            <div class="why-item">
-                <span>✓</span>
                 <p>Simple and easy-to-use interface</p>
             </div>
             <div class="why-item">
@@ -391,6 +436,9 @@
 
     <footer>
         <p>&copy; 2026 Hisab Kitab. Managing personal finance with absolute clarity.</p>
+        <div class="footer-links">
+            <a href="privacy-policy.html">Privacy Policy</a>
+        </div>
     </footer>
 
     <script>
@@ -400,10 +448,8 @@
         themeToggle.addEventListener('click', () => {
             if (body.hasAttribute('data-theme')) {
                 body.removeAttribute('data-theme');
-                themeToggle.textContent = 'Light Mode';
             } else {
                 body.setAttribute('data-theme', 'light');
-                themeToggle.textContent = 'Dark Mode';
             }
         });
     </script>
